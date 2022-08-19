@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:solartracker/Dashboard/Desktop/Components/logout_button.dart';
 import 'package:solartracker/Dashboard/Desktop/Components/logs_button.dart';
 import 'package:solartracker/Dashboard/Desktop/Components/navrail_separator.dart';
-import 'package:solartracker/Dashboard/Desktop/Components/solar_IO.dart';
+import 'package:solartracker/Dashboard/Desktop/Components/solar_IO_page.dart';
 import 'package:solartracker/Theme/customcolors.dart';
 
 import 'Fonts/sanstext.dart';
@@ -32,15 +32,13 @@ class _RailDashboardPageState extends State<RailDashboardPage> {
             flex: 2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SolarIOPanel()
-              ],
+              children: const [SolarIOPanel()],
             ),
           ),
           Expanded(
             flex: 3,
             child: Column(
-              children: [],
+              children: const [],
             ),
           ),
         ],
