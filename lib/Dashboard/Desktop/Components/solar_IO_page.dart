@@ -15,6 +15,8 @@ class SolarIOPanel extends StatefulWidget {
 class _SolarIOPanelState extends State<SolarIOPanel> {
   @override
   Widget build(BuildContext context) {
+    var _height =  MediaQuery.of(context).size.height;
+    var _width = MediaQuery.of(context).size.width;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -23,8 +25,9 @@ class _SolarIOPanelState extends State<SolarIOPanel> {
           height: 16,
         ),
         Container(
-          height: 400,
-          width: 400,
+          padding: EdgeInsets.symmetric(horizontal: 32),
+          height: 0.4*_height,
+          width: 0.4*_width,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: customColors.dashboardBackground),

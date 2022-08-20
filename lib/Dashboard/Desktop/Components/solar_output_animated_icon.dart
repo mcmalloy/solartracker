@@ -13,11 +13,11 @@ class SolarOutputAnimatedIcon extends StatefulWidget {
 
 class _SolarOutputAnimatedIconState extends State<SolarOutputAnimatedIcon>
     with SingleTickerProviderStateMixin {
-  double maxOutput = 2.50;
+  double maxOutput = 2.77;
   double currentSolarOutput = 1;
   late Animation<double> animation;
   late AnimationController controller;
-  Tween<double> _rotationTween = Tween(begin: 0, end: 2.50);
+  Tween<double> _rotationTween = Tween(begin: 0, end: 2.77);
   CustomColors customColors = CustomColors();
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _SolarOutputAnimatedIconState extends State<SolarOutputAnimatedIcon>
 
     controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 5),
     );
 
     animation = _rotationTween.animate(controller)
@@ -44,30 +44,29 @@ class _SolarOutputAnimatedIconState extends State<SolarOutputAnimatedIcon>
         height: 400,
         width: 400,
         child: Row(
-          children: [
-            outputPanel(),
-            NavRailSeparator(),
-            batteryPanel()
-          ],
+          children: [outputPanel(), NavRailSeparator(), batteryPanel()],
         ));
   }
 
-  Widget outputPanel(){
+  Widget outputPanel() {
     return Flexible(
         flex: 3,
         child: Stack(
           children: [
-            Positioned(
-                top: 12,
-                left: 12,
-                child: Text(
-                  "Current Output",
-                  style: TextStyle(
-                      fontFamily: "GoogleSans",
-                      color: const Color(0xfffafafa).withOpacity(0.7),
-                      fontSize: 22),
-                  textAlign: TextAlign.start,
-                )),
+            Center(
+                child: Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: Align(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        "Current Output",
+                        style: TextStyle(
+                            fontFamily: "GoogleSans",
+                            color: const Color(0xfffafafa).withOpacity(0.7),
+                            fontSize: 22),
+                        textAlign: TextAlign.start,
+                      ),
+                    ))),
             Center(
               child: Container(
                 decoration: const BoxDecoration(
@@ -80,8 +79,7 @@ class _SolarOutputAnimatedIconState extends State<SolarOutputAnimatedIcon>
                         spreadRadius: 2.0,
                       ),
                     ]),
-                child: CustomPaint(
-                    painter: ShapePainter(Colors.tealAccent)),
+                child: CustomPaint(painter: ShapePainter(Colors.tealAccent)),
               ),
             ),
             Center(
@@ -101,22 +99,26 @@ class _SolarOutputAnimatedIconState extends State<SolarOutputAnimatedIcon>
         ));
   }
 
-  Widget batteryPanel(){
+  Widget batteryPanel() {
     return Flexible(
       flex: 3,
       child: Stack(
         children: [
-          Positioned(
-              top: 12,
-              right: 12,
-              child: Text(
-                "Current Storage",
-                style: TextStyle(
-                    fontFamily: "GoogleSans",
-                    color: const Color(0xfffafafa).withOpacity(0.7),
-                    fontSize: 22),
-                textAlign: TextAlign.start,
-              )),
+          Center(
+            child: Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    "Current Storage",
+                    style: TextStyle(
+                        fontFamily: "GoogleSans",
+                        color: const Color(0xfffafafa).withOpacity(0.7),
+                        fontSize: 22),
+                    textAlign: TextAlign.start,
+                  ),
+                )),
+          ),
           Center(
             child: Container(
               decoration: const BoxDecoration(
@@ -129,8 +131,8 @@ class _SolarOutputAnimatedIconState extends State<SolarOutputAnimatedIcon>
                       spreadRadius: 2.0,
                     ),
                   ]),
-              child: CustomPaint(
-                  painter: ShapePainter(customColors.pastelYellow)),
+              child:
+                  CustomPaint(painter: ShapePainter(customColors.pastelYellow)),
             ),
           ),
           const Center(
@@ -162,12 +164,42 @@ class ShapePainter extends CustomPainter {
     var paint = Paint()
       ..color = color
       ..strokeWidth = 2
+      //..maskFilter = MaskFilter.blur(BlurStyle.solid, 4)
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    Paint shadowPaint = Paint()
+      ..color = color.withOpacity(0.2)
+      ..strokeWidth = 12
+      ..maskFilter = MaskFilter.blur(BlurStyle.outer, 16)
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
     Offset center = Offset(size.width / 2, size.height / 2);
-
     canvas.drawCircle(center, 80, paint);
+    canvas.drawCircle(center, 80, shadowPaint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
+  }
+}
+
+class ProgressPainter extends CustomPainter {
+  final Color color;
+
+  ProgressPainter(this.color);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = color
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    Offset center = Offset(size.width / 2, size.height / 2);
   }
 
   @override
