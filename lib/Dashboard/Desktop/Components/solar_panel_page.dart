@@ -24,7 +24,7 @@ class _SolarPanelArrayListPageState extends State<SolarPanelArrayListPage> {
           height: 16,
         ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: const EdgeInsets.all(128),
           height: 0.4 * _height,
           width: 0.4 * _width,
           decoration: BoxDecoration(
@@ -39,8 +39,8 @@ class _SolarPanelArrayListPageState extends State<SolarPanelArrayListPage> {
   Widget solarGridView() {
     return GridView.count(
         crossAxisCount: 3,
-        crossAxisSpacing: 2.0,
-        mainAxisSpacing: 2.0,
+        crossAxisSpacing: 1.0,
+        mainAxisSpacing: 1.0,
         children: List.generate(9, (index) {
           return solarIcon(index);
         }));
@@ -57,51 +57,26 @@ class _SolarPanelArrayListPageState extends State<SolarPanelArrayListPage> {
       panelColor = customColors.flatPurple;
     }
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        arrayText("400W-${index + 1}"),
-        Container(
-          padding: EdgeInsets.all(4.0),
-          height: 80,
-          width: 80,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-              color: Colors.transparent,
-              border: Border.all(
-                color: panelColor,
-              )),
-          child: Container(
-              padding: EdgeInsets.all(2.0),
-              height: 60,
-              width: 60,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: Colors.transparent,
-                  border: Border.all(
-                    color: panelColor,
-                  )),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    FontAwesomeIcons.solarPanel,
-                    size: 32,
-                    color: panelColor,
-                  ),
-                  Text(
-                    wattArray[index].toString() + "W",
-                    style: TextStyle(
-                        fontFamily: "GoogleSans",
-                        color: Color(0xfffafafa).withOpacity(0.8),
-                        fontSize: 16),
-                    textAlign: TextAlign.start,
-                  )
-                ],
-              )),
-        ),
-      ],
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            FontAwesomeIcons.solarPanel,
+            size: 32,
+            color: panelColor,
+          ),
+          Text(
+            wattArray[index].toString() + "W",
+            style: TextStyle(
+                fontFamily: "GoogleSans",
+                color: Color(0xfffafafa).withOpacity(0.8),
+                fontSize: 16),
+            textAlign: TextAlign.start,
+          )
+        ],
+      ),
     );
   }
 

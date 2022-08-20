@@ -41,8 +41,8 @@ class _SolarOutputAnimatedIconState extends State<SolarOutputAnimatedIcon>
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 400,
-        width: 400,
+        height: 360,
+        width: 360,
         child: Row(
           children: [outputPanel(), NavRailSeparator(), batteryPanel()],
         ));
