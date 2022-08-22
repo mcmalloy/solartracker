@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:solartracker/Dashboard/Desktop/Components/solar_IO_data_field.dart';
-import 'package:solartracker/Dashboard/Desktop/Components/solar_output_animated_icon.dart';
-import 'package:solartracker/Dashboard/Desktop/Fonts/labeltext.dart';
+import 'package:solartracker/Desktop/Modules/Components/solar_production_animated_circle.dart';
 import 'package:solartracker/Theme/customcolors.dart';
+
+import 'Components/module_title_text.dart';
 
 CustomColors customColors = CustomColors();
 
@@ -14,6 +14,14 @@ class SolarIOPanel extends StatefulWidget {
 }
 
 class _SolarIOPanelState extends State<SolarIOPanel> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    /// Establish connection to Solar Array
+    /// Feed solar data to SolarProductionCircle()
+  }
   @override
   Widget build(BuildContext context) {
     var _height = MediaQuery.of(context).size.height;
@@ -21,10 +29,7 @@ class _SolarIOPanelState extends State<SolarIOPanel> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        titleText("Solar Panel Summary"),
-        const SizedBox(
-          height: 16,
-        ),
+        const ModuleTitleText(text: "Solar Panel Summary"),
         Container(
           height: 0.26 * _height,
           width: 0.25 * _width,
@@ -32,23 +37,12 @@ class _SolarIOPanelState extends State<SolarIOPanel> {
               borderRadius: BorderRadius.circular(8),
               color: customColors.dashboardBackground),
           child: Column(
-            children: [
-              const SolarOutputAnimatedIcon(),
+            children: const [
+              SolarProductionCircle(),
             ],
           ),
         )
       ],
-    );
-  }
-
-  Widget titleText(String label) {
-    return Text(
-      label,
-      style: TextStyle(
-          fontFamily: "GoogleSans",
-          color: Color(0xfffafafa).withOpacity(0.8),
-          fontSize: 24),
-      textAlign: TextAlign.start,
     );
   }
 }

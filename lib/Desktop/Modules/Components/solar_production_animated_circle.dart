@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:solartracker/Dashboard/Desktop/Components/logout_button.dart';
-import 'package:solartracker/Dashboard/Desktop/Components/navrail_separator.dart';
+import 'package:solartracker/Desktop/Components/navrail_separator.dart';
 import 'package:solartracker/Theme/customcolors.dart';
 
-class SolarOutputAnimatedIcon extends StatefulWidget {
-  const SolarOutputAnimatedIcon({Key? key}) : super(key: key);
+class SolarProductionCircle extends StatefulWidget {
+  const SolarProductionCircle({Key? key}) : super(key: key);
 
   @override
-  State<SolarOutputAnimatedIcon> createState() =>
-      _SolarOutputAnimatedIconState();
+  State<SolarProductionCircle> createState() =>
+      _SolarProductionCircleState();
 }
 
-class _SolarOutputAnimatedIconState extends State<SolarOutputAnimatedIcon>
+class _SolarProductionCircleState extends State<SolarProductionCircle>
     with SingleTickerProviderStateMixin {
   double maxOutput = 2.77;
   double currentSolarOutput = 1;

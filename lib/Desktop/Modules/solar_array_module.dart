@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:solartracker/Theme/customcolors.dart';
 
-class SolarPanelArrayListPage extends StatefulWidget {
-  const SolarPanelArrayListPage({Key? key}) : super(key: key);
+import '../../../Theme/customcolors.dart';
+import 'Components/module_title_text.dart';
+
+class SolarArrayModule extends StatefulWidget {
+  const SolarArrayModule({Key? key}) : super(key: key);
 
   @override
-  State<SolarPanelArrayListPage> createState() =>
-      _SolarPanelArrayListPageState();
+  State<SolarArrayModule> createState() => _SolarArrayModuleState();
 }
 
-class _SolarPanelArrayListPageState extends State<SolarPanelArrayListPage> {
+class _SolarArrayModuleState extends State<SolarArrayModule> {
   CustomColors customColors = CustomColors();
   @override
   Widget build(BuildContext context) {
@@ -19,10 +20,7 @@ class _SolarPanelArrayListPageState extends State<SolarPanelArrayListPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        titleText("Solar Array Status"),
-        const SizedBox(
-          height: 16,
-        ),
+        ModuleTitleText(text: "Solar Array Status"),
         Container(
           padding: const EdgeInsets.all(128),
           height: 0.4 * _height,
@@ -77,17 +75,6 @@ class _SolarPanelArrayListPageState extends State<SolarPanelArrayListPage> {
           )
         ],
       ),
-    );
-  }
-
-  Widget titleText(String label) {
-    return Text(
-      label,
-      style: TextStyle(
-          fontFamily: "GoogleSans",
-          color: Color(0xfffafafa).withOpacity(0.8),
-          fontSize: 24),
-      textAlign: TextAlign.start,
     );
   }
 

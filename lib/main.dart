@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'Dashboard/Desktop/dashboard.dart';
+import 'package:solartracker/Desktop/Modules/circular_animation_module.dart';
+import 'package:solartracker/Desktop/Pages/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: RailDashboardPage(),
+      home: const CircularAnimationModule()
     );
   }
 }
