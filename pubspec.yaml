@@ -36,7 +36,7 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  google_fonts: any
+  google_fonts: ^3.0.1
   font_awesome_flutter: any
   wave: ^0.2.2
   logger: ^1.1.0
@@ -84,6 +84,9 @@ flutter:
     - family: GoogleSans
       fonts:
         - asset: assets/google-sans/ProductSans-Regular.ttf
+    - family: Montserrat
+      fonts:
+        - asset: fonts/Montserrat.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

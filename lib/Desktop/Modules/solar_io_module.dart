@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:solartracker/Desktop/Modules/Components/solar_production_animated_circle.dart';
+import 'package:solartracker/Desktop/Modules/circular_animation_module.dart';
 import 'package:solartracker/Theme/customcolors.dart';
 
 import 'Components/module_title_text.dart';
@@ -14,14 +15,15 @@ class SolarIOPanel extends StatefulWidget {
 }
 
 class _SolarIOPanelState extends State<SolarIOPanel> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     /// Establish connection to Solar Array
     /// Feed solar data to SolarProductionCircle()
   }
+
   @override
   Widget build(BuildContext context) {
     var _height = MediaQuery.of(context).size.height;
@@ -35,11 +37,14 @@ class _SolarIOPanelState extends State<SolarIOPanel> {
           width: 0.25 * _width,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: customColors.dashboardBackground),
-          child: Column(
-            children: const [
-              SolarProductionCircle(),
-            ],
+              color: Color(0xffF8F8FC)),
+          child: CircularAnimationModule(
+            radius: 96,
+            animateToPercentage: 46,
+            centerText: "kW",
+            centerTextValue: 2.2,
+            showPercentText: true,
+            strokeColor: Colors.blue,
           ),
         )
       ],

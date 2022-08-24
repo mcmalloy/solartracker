@@ -3,11 +3,26 @@ import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:solartracker/Theme/customcolors.dart';
 
 class CircularAnimationModule extends StatefulWidget {
-  const CircularAnimationModule({Key? key}) : super(key: key);
+  final double radius;
+  final double animateToPercentage;
+  final double centerTextValue;
+  final bool showPercentText;
+  final String? centerText;
+  final Color strokeColor;
+  const CircularAnimationModule(
+      {Key? key,
+      required this.radius,
+      required this.animateToPercentage,
+      required this.centerTextValue,
+      required this.showPercentText,
+      this.centerText,
+      required this.strokeColor})
+      : super(key: key);
 
   @override
   State<CircularAnimationModule> createState() =>
@@ -17,91 +32,158 @@ class CircularAnimationModule extends StatefulWidget {
 class _CircularAnimationModuleState extends State<CircularAnimationModule>
     with SingleTickerProviderStateMixin {
   CustomColors customColors = CustomColors();
-  double radius = 256;
-  double percentage = 24;
   double showPercentage = 0;
-  double newPercentage = 0;
+  String centerValue = "";
   late Animation<double> animation;
-  late AnimationController controller;
+  late AnimationController paintController;
   late Tween<double> animatedPercentage;
+  late Tween<double> centerTextPercentage;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     var logger = Logger();
-    animatedPercentage = Tween(begin: 0, end: percentage);
-    controller = AnimationController(
+    animatedPercentage = Tween(begin: 0, end: widget.animateToPercentage);
+    paintController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 5),
+      duration: const Duration(seconds: 3),
     );
-
-    animation = animatedPercentage.animate(controller)
+    centerTextPercentage = Tween(begin: 0, end: widget.centerTextValue);
+    animation = animatedPercentage.animate(
+        CurvedAnimation(parent: paintController, curve: Curves.easeOutExpo))
       ..addListener(() {
         setState(() {
           showPercentage = animation.value;
         });
         //logger.d("percentage: ${ showPercentage}");
-
       });
-    controller.forward();
+    centerTextPercentage
+        .animate(
+            CurvedAnimation(parent: paintController, curve: Curves.easeOutExpo))
+        .addListener(() {
+      setState(() {
+        centerValue =
+            centerTextPercentage.lerp(paintController.value).toStringAsFixed(2);
+      });
+    });
+    paintController.forward();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.grey,
-        body: Stack(
+    return circularProgressPainter();
+  }
+
+  Widget circularProgressPainter() {
+    return Container(
+        height: 128,
+        width: 128,
+        child: Stack(
+          alignment: Alignment.center,
           children: [
-            Positioned(
-              top: MediaQuery.of(context).size.height / 2,
-              right: MediaQuery.of(context).size.width / 2,
-              child: circularProgressPainter(),
-            )
+            AnimatedBuilder(
+              animation: paintController,
+              builder: (BuildContext context, Widget? child) {
+                return CustomPaint(
+                    painter: FullProgressBarStandardPaint(
+                        widget.strokeColor,
+                        customColors.flatPurple,
+                        customColors.backgroundThemePurple,
+                        widget.radius,
+                        showPercentage,
+                        StrokeWidth.Normal));
+              },
+            ),
+            centerText()
           ],
         ));
   }
 
-  Widget circularProgressPainter() {
-    return AnimatedBuilder(
-        animation: controller,
-
-        builder: (BuildContext context, Widget? child) {
-          return CustomPaint(
-              painter: CircularPainter(
-                  Colors.tealAccent,
-                  customColors.lightPastelGreen,
-                  customColors.backgroundThemePurple,
-                  radius,
-                  showPercentage));
-        });
+  Widget centerText() {
+    String txt = widget.centerText != null ? widget.centerText! : "";
+    return Visibility(
+      visible: widget.showPercentText,
+      child: Text(
+        "$centerValue\n$txt",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+            fontFamily: "GoogleSans",
+            fontWeight: FontWeight.normal,
+            color: ColorTween(
+              begin: Colors.white60,
+              end: widget.strokeColor,
+            ).transform(0.9)!,
+            fontSize: widget.centerText != null ? 46 : 56),
+      ),
+    );
   }
 }
 
-class CircularPainter extends CustomPainter {
+enum StrokeWidth { SuperThin, Thin, Normal, Thick, Thicc }
+
+class FullProgressBarStandardPaint extends CustomPainter {
   final Color strokeColor;
+  final Color gradientColor;
   final Color shadeColor;
-  final Color blurColor;
   final double radius;
   final double percentage;
-  CircularPainter(this.strokeColor, this.shadeColor, this.blurColor,
-      this.radius, this.percentage);
+  final StrokeWidth strokeWidth;
+  FullProgressBarStandardPaint(this.strokeColor, this.gradientColor,
+      this.shadeColor, this.radius, this.percentage, this.strokeWidth);
+
+  double getStrokeWidth() {
+    switch (strokeWidth) {
+      case StrokeWidth.SuperThin:
+        return 5;
+      case StrokeWidth.Thin:
+        return 10;
+      case StrokeWidth.Normal:
+        return 15;
+      case StrokeWidth.Thick:
+        return 30;
+      case StrokeWidth.Thicc:
+        return 60;
+    }
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
-    var logger = Logger();
-
-    var paint = Paint()
-      ..color = strokeColor
-      ..strokeWidth = 5
-      //..maskFilter = MaskFilter.blur(BlurStyle.solid, 4)
-      ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
-    double angle = 2 * pi * (70 / 100);
-    Offset center = Offset(size.width / 2, size.height / 2);
     canvas.rotate(pi);
-    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), 0,
-        degreesToRadians(), false, paint);
+    paintBackground(canvas, size);
+    paintForeGround(canvas, size);
 
     //logger.d("Drew for OffsetAngle $offsetAngle");
+  }
+
+  void paintBackground(Canvas canvas, Size size) {
+    double sWidth = getStrokeWidth();
+    Offset center = Offset(size.width / 2, size.height / 2);
+    var backgroundPaint = Paint()
+      ..color = strokeColor
+      ..strokeWidth = sWidth - 5
+      //..maskFilter = MaskFilter.blur(BlurStyle.solid, 4)
+      ..style = PaintingStyle.stroke
+      ..maskFilter = MaskFilter.blur(BlurStyle.solid, 4)
+      ..strokeCap = StrokeCap.round;
+    backgroundPaint.color = Colors.grey.withOpacity(0.4);
+    canvas.drawCircle(center, radius, backgroundPaint);
+  }
+
+  void paintForeGround(Canvas canvas, Size size) {
+    double sWidth = getStrokeWidth();
+    Offset center = Offset(size.width / 2, size.height / 2);
+    var mainPaint = Paint()
+      ..color = strokeColor
+      ..strokeWidth = sWidth
+      ..maskFilter = MaskFilter.blur(BlurStyle.solid, 8)
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+    mainPaint.color = ColorTween(
+      begin: Colors.white60,
+      end: strokeColor,
+    ).transform(0.9)!;
+    canvas.drawArc(Rect.fromCircle(center: center, radius: radius), 0,
+        degreesToRadians(), false, mainPaint);
   }
 
   double percentToDegrees() {
@@ -112,14 +194,8 @@ class CircularPainter extends CustomPainter {
     return percentToDegrees() * pi / 180;
   }
 
-  progressGradient(int stepDegrees) {
+  void progressGradient(int stepDegrees) {
     // Set paint color based on division angle.
-    /*
-    paint.color = ColorTween(
-      begin: Colors.green,
-      end: Colors.red,
-    ).transform(stepDegrees / totalDegrees)!;
-     */
   }
 
   @override

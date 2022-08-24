@@ -50,48 +50,56 @@ class _RailDashboardPageState extends State<RailDashboardPage> {
     return Column(
       children: [
         Expanded(
-          child: NavigationRail(
-            backgroundColor: customColors.dashboardBackground.withOpacity(0.8),
-            selectedIndex: selectedIndex,
-            onDestinationSelected: (int index) {
-              setState(() {
-                selectedIndex = index;
-              });
-            },
-            labelType: NavigationRailLabelType.selected,
-            destinations: <NavigationRailDestination>[
-              navDestinationWidget(Icons.dashboard_rounded, "Solar Dashboard"),
-              navDestinationWidget(Icons.sensors, "Sensor Data"),
-              navDestinationWidget(
-                  Icons.admin_panel_settings, "Administration"),
-            ],
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(topRight: Radius.circular(12), bottomRight: Radius.circular(12)),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                  customColors.dashboardGradient1,
+                  customColors.dashboardGradient2
+                ])),
+            child: NavigationRail(
+              backgroundColor:
+                  Colors.transparent,
+              selectedIndex: selectedIndex,
+              onDestinationSelected: (int index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+              },
+              labelType: NavigationRailLabelType.selected,
+              destinations: <NavigationRailDestination>[
+                navDestinationWidget(
+                    Icons.dashboard_rounded, "Solar Dashboard"),
+                navDestinationWidget(Icons.sensors, "Sensor Data"),
+                navDestinationWidget(
+                    Icons.admin_panel_settings, "Administration"),
+              ],
+            ),
           ),
         ),
-        Column(
-          children: const [
-            SansText(
-              body: "Information",
-              fontSize: 20,
-            ),
-            LogsButton(),
-            LogoutButton()
-          ],
-        )
       ],
     );
   }
 
   NavigationRailDestination navDestinationWidget(IconData icon, String label) {
     return NavigationRailDestination(
-        icon: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(
-              icon,
-              color: customColors.dashboardText,
-            ),
-            labelText(label)
-          ],
+        icon: Container(
+          decoration: BoxDecoration(
+            color: customColors.backgroundWhite
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Icon(
+                icon,
+                color: customColors.dashboardText,
+              ),
+              labelText(label)
+            ],
+          ),
         ),
         selectedIcon: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -113,8 +121,9 @@ class _RailDashboardPageState extends State<RailDashboardPage> {
         label,
         style: TextStyle(
             fontFamily: "GoogleSans",
-            color: customColors.dashboardText,
-            fontSize: 18),
+            fontWeight: FontWeight.bold,
+            color: customColors.dashboardItemText,
+            fontSize: 20),
         textAlign: TextAlign.start,
       ),
     );

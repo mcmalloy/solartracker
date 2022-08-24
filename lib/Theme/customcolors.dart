@@ -22,4 +22,10 @@ class CustomColors{
   //Greys
   Color dashboardText = const Color(0xff646a73);
 
+  //Dashboard
+  Color dashboardGradient1 = const Color (0xff8C4AF2);
+  Color dashboardGradient2 = const Color (0xff615AF8);
+  Color dashboardItemText = const Color (0xff755EF7);
+  Color backgroundWhite = const Color (0xffF7F7FE);
+
 }
