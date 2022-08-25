@@ -6,11 +6,13 @@ class DashboardProgressContainer extends StatefulWidget {
   final String progressText;
   final double percent;
   final double value;
+  final Color strokeColor;
   const DashboardProgressContainer(
       {Key? key,
       required this.progressText,
       required this.percent,
-      required this.value})
+      required this.value,
+      required this.strokeColor})
       : super(key: key);
 
   @override
@@ -52,8 +54,9 @@ class _DashboardProgressContainerState
                   radius: 64,
                   animateToPercentage: widget.percent,
                   centerTextValue: 50,
+                  centerText: "%",
                   showPercentText: true,
-                  strokeColor: Colors.purple))
+                  strokeColor: widget.strokeColor))
         ],
       ),
     );

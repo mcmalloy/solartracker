@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:solartracker/Desktop/Modules/circular_animation_module.dart';
+import 'package:solartracker/Desktop/Pages/login_page.dart';
 import 'package:solartracker/Theme/customcolors.dart';
 import 'package:solartracker/Web/Components/dashboard_progress_container.dart';
 import 'package:solartracker/Web/Components/gradient_icon.dart';
@@ -118,7 +119,7 @@ class _CVDashBoardState extends State<CVDashBoard> {
           Container(
             padding: EdgeInsets.only(left: 32),
             height: 550,
-            width: 600,
+            width: 500,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(32),
               color: Colors.white,
@@ -134,25 +135,97 @@ class _CVDashBoardState extends State<CVDashBoard> {
                 //you can set more BoxShadow() here
               ],
             ),
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Container(),
+                ),
+                Expanded(
+                  flex: 3,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        child: Text(
+                          "Manage Your Project in One Touch",
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.roboto(
+                              fontSize: 36, color: Colors.black87),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                        child: Text(
+                          "Survived not only five centuries, but also the leap into electronic typeetting.",
+                          textAlign: TextAlign.start,
+                          style: GoogleFonts.roboto(
+                              fontSize: 18, color: Colors.grey),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 20, top: 12),
+                        child: Container(
+                          height: 60,
+                          width: 180,
+                          decoration: BoxDecoration(
+                              color: customColors.dashboardGradient2,
+                              borderRadius: BorderRadius.circular(12)),
+                          child: TextButton(
+                              onPressed: () {},
+                              child: Text(
+                                "TRY FOR FREE",
+                                style: GoogleFonts.roboto(
+                                    fontSize: 16, color: Colors.white),
+                              )),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              DashboardProgressContainer(progressText: "Total Clients", percent: 50.0, value: 50),
+              DashboardProgressContainer(
+                progressText: "Total Clients",
+                percent: 50.0,
+                value: 50,
+                strokeColor: Colors.purple,
+              ),
               SizedBox(
                 height: 32,
               ),
-              DashboardProgressContainer(progressText: "Total Revenue", percent: 72.3, value: 72.3),
+              DashboardProgressContainer(
+                progressText: "Total Revenue",
+                percent: 72.3,
+                value: 72.3,
+                strokeColor: customColors.dashboardGradient2,
+              ),
             ],
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              DashboardProgressContainer(progressText: "New Projects", percent: 75.3, value: 75.3),
+              DashboardProgressContainer(
+                progressText: "New Projects",
+                percent: 75.3,
+                value: 75.3,
+                strokeColor: Colors.lightGreen,
+              ),
               SizedBox(
                 height: 32,
               ),
-              DashboardProgressContainer(progressText: "Total Expsenses", percent: 18.3, value: 18.3),
+              DashboardProgressContainer(
+                progressText: "Total Expsenses",
+                percent: 18.3,
+                value: 18.3,
+                strokeColor: customColors.highlightRed,
+              ),
             ],
           ),
         ],

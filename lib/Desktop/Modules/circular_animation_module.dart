@@ -63,7 +63,7 @@ class _CircularAnimationModuleState extends State<CircularAnimationModule>
         .addListener(() {
       setState(() {
         centerValue =
-            centerTextPercentage.lerp(paintController.value).toStringAsFixed(2);
+            centerTextPercentage.lerp(paintController.value).toInt().toString();
       });
     });
     paintController.forward();
@@ -101,7 +101,7 @@ class _CircularAnimationModuleState extends State<CircularAnimationModule>
     return Visibility(
       visible: widget.showPercentText,
       child: Text(
-        "$centerValue\n$txt",
+        "$centerValue$txt",
         textAlign: TextAlign.center,
         style: TextStyle(
             fontFamily: "GoogleSans",
@@ -110,7 +110,7 @@ class _CircularAnimationModuleState extends State<CircularAnimationModule>
               begin: Colors.white60,
               end: widget.strokeColor,
             ).transform(0.9)!,
-            fontSize: widget.centerText != null ? 24 : 24),
+            fontSize: widget.centerText != null ? 32 : 32),
       ),
     );
   }
@@ -160,7 +160,7 @@ class FullProgressBarStandardPaint extends CustomPainter {
       ..strokeWidth = sWidth - 5
       //..maskFilter = MaskFilter.blur(BlurStyle.solid, 4)
       ..style = PaintingStyle.stroke
-      ..maskFilter = MaskFilter.blur(BlurStyle.solid, 4)
+      ..maskFilter = MaskFilter.blur(BlurStyle.solid, 2)
       ..strokeCap = StrokeCap.round;
     backgroundPaint.color = Colors.grey.withOpacity(0.4);
     canvas.drawCircle(center, radius, backgroundPaint);
@@ -176,7 +176,7 @@ class FullProgressBarStandardPaint extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
     mainPaint.color = ColorTween(
-      begin: Colors.white60,
+      begin: strokeColor.withOpacity(0.2),
       end: strokeColor,
     ).transform(0.9)!;
     canvas.drawArc(Rect.fromCircle(center: center, radius: radius), 0,
