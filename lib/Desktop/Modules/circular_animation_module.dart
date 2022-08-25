@@ -8,7 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:solartracker/Theme/customcolors.dart';
 
 class CircularAnimationModule extends StatefulWidget {
-  final double radius;
+  final double radius; // default 96
   final double animateToPercentage;
   final double centerTextValue;
   final bool showPercentText;
@@ -75,28 +75,25 @@ class _CircularAnimationModuleState extends State<CircularAnimationModule>
   }
 
   Widget circularProgressPainter() {
-    return Container(
-        height: 128,
-        width: 128,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            AnimatedBuilder(
-              animation: paintController,
-              builder: (BuildContext context, Widget? child) {
-                return CustomPaint(
-                    painter: FullProgressBarStandardPaint(
-                        widget.strokeColor,
-                        customColors.flatPurple,
-                        customColors.backgroundThemePurple,
-                        widget.radius,
-                        showPercentage,
-                        StrokeWidth.Normal));
-              },
-            ),
-            centerText()
-          ],
-        ));
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        AnimatedBuilder(
+          animation: paintController,
+          builder: (BuildContext context, Widget? child) {
+            return CustomPaint(
+                painter: FullProgressBarStandardPaint(
+                    widget.strokeColor,
+                    customColors.flatPurple,
+                    customColors.backgroundThemePurple,
+                    widget.radius,
+                    showPercentage,
+                    StrokeWidth.Normal));
+          },
+        ),
+        centerText()
+      ],
+    );
   }
 
   Widget centerText() {
@@ -113,7 +110,7 @@ class _CircularAnimationModuleState extends State<CircularAnimationModule>
               begin: Colors.white60,
               end: widget.strokeColor,
             ).transform(0.9)!,
-            fontSize: widget.centerText != null ? 46 : 56),
+            fontSize: widget.centerText != null ? 24 : 24),
       ),
     );
   }
@@ -138,7 +135,7 @@ class FullProgressBarStandardPaint extends CustomPainter {
       case StrokeWidth.Thin:
         return 10;
       case StrokeWidth.Normal:
-        return 15;
+        return 17;
       case StrokeWidth.Thick:
         return 30;
       case StrokeWidth.Thicc:
