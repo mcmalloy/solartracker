@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:solartracker/Desktop/Modules/circular_animation_module.dart';
+import 'package:solartracker/Web/Components/progress_container_column.dart';
 
 class DashboardProgressContainer extends StatefulWidget {
   final String progressText;
@@ -46,7 +47,7 @@ class _DashboardProgressContainerState
         children: [
           Expanded(
             flex: 3,
-            child: leftSide(),
+            child: DashboardProgressContainerColumn(progressText: widget.progressText,),
           ),
           Expanded(
               flex: 3,

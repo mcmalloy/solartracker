@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 import 'package:solartracker/Theme/customcolors.dart';
+import 'package:solartracker/Web/Rendering/circular_animation_duration_engine.dart';
 
 class CircularAnimationModule extends StatefulWidget {
   final double radius; // default 96
@@ -38,6 +39,7 @@ class _CircularAnimationModuleState extends State<CircularAnimationModule>
   late AnimationController paintController;
   late Tween<double> animatedPercentage;
   late Tween<double> centerTextPercentage;
+  AnimationDurationEngine engine = AnimationDurationEngine();
   @override
   void initState() {
     // TODO: implement initState
@@ -46,7 +48,7 @@ class _CircularAnimationModuleState extends State<CircularAnimationModule>
     animatedPercentage = Tween(begin: 0, end: widget.animateToPercentage);
     paintController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 3),
+      duration: Duration(milliseconds: engine.getAnimationDuration()),
     );
     centerTextPercentage = Tween(begin: 0, end: widget.centerTextValue);
     animation = animatedPercentage.animate(
