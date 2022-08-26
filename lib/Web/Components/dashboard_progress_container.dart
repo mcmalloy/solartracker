@@ -47,7 +47,9 @@ class _DashboardProgressContainerState
         children: [
           Expanded(
             flex: 3,
-            child: DashboardProgressContainerColumn(progressText: widget.progressText,),
+            child: DashboardProgressContainerColumn(
+              progressText: widget.progressText,
+            ),
           ),
           Expanded(
               flex: 3,
